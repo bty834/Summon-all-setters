@@ -1,10 +1,15 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>org.jetbrains.plugins.template</id>
+    <id>io.github.bty834.SummonSetters</id>
     <name> Summon Setters </name>
-    <vendor>JetBrains</vendor>
+    <vendor email="baotingyu1997@gmail.com" url="http://bty834.github.io">Bao Tingyu</vendor>
 
     <depends>com.intellij.java</depends>
+
+    <description><![CDATA[
+        **Summon all setters** helps you auto-generate all the setters of Java POJOs, press  `option/alt + enter`
+    ]]>
+    </description>
 
     <extensions defaultExtensionNs="com.intellij">
         <intentionAction>
