@@ -64,29 +64,32 @@ class CommonUtil {
             return methodNameSet.toList()
         }
 
+        private val type2DefaultValue: MutableMap<String,String> = HashMap()
+
+        init {
+            type2DefaultValue["int"] = "0"
+            type2DefaultValue["java.lang.Integer"] = "0"
+
+            type2DefaultValue["long"] = "0L"
+            type2DefaultValue["java.lang.Long"] = "0L"
+
+            type2DefaultValue["float"] = "0f"
+            type2DefaultValue["java.lang.Float"] = "0f"
+
+            type2DefaultValue["double"] = "0d"
+            type2DefaultValue["java.lang.Double"] = "0d"
+
+            type2DefaultValue["char"] = "''"
+            type2DefaultValue["java.lang.Character"] = "''"
+
+            type2DefaultValue["byte"] = "0"
+            type2DefaultValue["java.lang.Byte"] = "0"
+
+            type2DefaultValue["java.lang.String"] = "\"\""
+        }
+
         fun getDefaultValueForType(type: String): String {
-            if (type == "int" || type == "java.lang.Integer") {
-                return "0"
-            }
-            if (type == "long" || type == "java.lang.Long") {
-                return "0L"
-            }
-            if (type == "float" || type == "java.lang.Float") {
-                return "0f"
-            }
-            if (type == "double" || type == "java.lang.Double") {
-                return "0d"
-            }
-            if (type == "boolean" || type == "java.lang.Boolean") {
-                return "false"
-            }
-            if (type == "char" || type == "java.lang.Character") {
-                return "''"
-            }
-            if (type == "java.lang.String") {
-                return "\"\""
-            }
-            return "null"
+            return type2DefaultValue.getOrDefault(type, "null")
         }
 
         fun getSetterMethodName2Type(psiClass: PsiClass?): Map<String, String> {
