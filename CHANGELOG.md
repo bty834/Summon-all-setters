@@ -7,6 +7,6 @@
 
 ### Added
 
-- Build basic function: generate setters without value
+- Build basic function: generate setters without/with value
 
 [0.0.1]: https://github.com/bty834/Summon-all-setters

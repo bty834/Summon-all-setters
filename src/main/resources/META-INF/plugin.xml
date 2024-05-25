@@ -16,5 +16,9 @@
             <language>JAVA</language>
             <className>io.github.bty834.SummonSettersIntentionAction</className>
         </intentionAction>
+        <intentionAction>
+            <language>JAVA</language>
+            <className>io.github.bty834.SummonSettersWithDefaultsIntentionAction</className>
+        </intentionAction>
     </extensions>
 </idea-plugin>
