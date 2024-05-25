@@ -5,4 +5,4 @@
 <!-- Plugin description end -->
 
 
-![summonSetters.gif](doc/summonSetters.gif)
+![summonSetters.gif](./doc/summonSetters.gif)
