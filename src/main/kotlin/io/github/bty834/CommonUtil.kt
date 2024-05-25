@@ -49,22 +49,31 @@ class CommonUtil {
                 || psiClass.hasAnnotation("lombok.Data")
             ) {
                 psiClass.allFields
+                    .filter { !it.hasModifierProperty(PsiModifier.STATIC) }
                     .map { "set" + it.name[0].uppercaseChar() + it.name.substring(1) }
                     .forEach { methodNameSet.add(it) }
             }
             val fields: Array<PsiField> = psiClass.allFields
 
             fields.filter { it.hasAnnotation("lombok.Setter") }
+                .filter { !it.hasModifierProperty(PsiModifier.STATIC) }
                 .map { "set" + it.name[0].uppercaseChar() + it.name.substring(1) }
                 .forEach { methodNameSet.add(it) }
 
-            psiClass.allMethods.filter { it.name.startsWith("set") }
+            psiClass.allMethods.filter {
+                it.hasModifierProperty(PsiModifier.PUBLIC)
+                        && it.name.startsWith("set")
+                        && !it.hasModifierProperty(PsiModifier.STATIC)
+                        && !it.hasModifierProperty(PsiModifier.ABSTRACT)
+                        && !it.hasModifierProperty(PsiModifier.DEFAULT)
+                        && !it.hasModifierProperty(PsiModifier.NATIVE)
+            }
                 .forEach { methodNameSet.add(it.name) }
 
             return methodNameSet.toList()
         }
 
-        private val type2DefaultValue: MutableMap<String,String> = HashMap()
+        private val type2DefaultValue: MutableMap<String, String> = HashMap()
 
         init {
             type2DefaultValue["int"] = "0"
@@ -79,11 +88,14 @@ class CommonUtil {
             type2DefaultValue["double"] = "0d"
             type2DefaultValue["java.lang.Double"] = "0d"
 
-            type2DefaultValue["char"] = "''"
-            type2DefaultValue["java.lang.Character"] = "''"
+            type2DefaultValue["char"] = "' '"
+            type2DefaultValue["java.lang.Character"] = "' '"
 
             type2DefaultValue["byte"] = "0"
             type2DefaultValue["java.lang.Byte"] = "0"
+
+            type2DefaultValue["boolean"] = "false"
+            type2DefaultValue["java.lang.Boolean"] = "false"
 
             type2DefaultValue["java.lang.String"] = "\"\""
         }
@@ -100,6 +112,7 @@ class CommonUtil {
                 || psiClass.hasAnnotation("lombok.Data")
             ) {
                 psiClass.allFields
+                    .filter { !it.hasModifierProperty(PsiModifier.STATIC) }
                     .forEach {
                         val name = "set" + it.name[0].uppercaseChar() + it.name.substring(1)
                         val type = it.type.canonicalText
@@ -109,13 +122,21 @@ class CommonUtil {
             val fields: Array<PsiField> = psiClass.allFields
 
             fields.filter { it.hasAnnotation("lombok.Setter") }
+                .filter { !it.hasModifierProperty(PsiModifier.STATIC) }
                 .forEach {
                     val name = "set" + it.name[0].uppercaseChar() + it.name.substring(1)
                     val type = it.type.canonicalText
                     methodName2Type[name] = type
                 }
 
-            psiClass.allMethods.filter { it.name.startsWith("set") }
+            psiClass.allMethods.filter {
+                it.hasModifierProperty(PsiModifier.PUBLIC)
+                        && it.name.startsWith("set")
+                        && !it.hasModifierProperty(PsiModifier.STATIC)
+                        && !it.hasModifierProperty(PsiModifier.ABSTRACT)
+                        && !it.hasModifierProperty(PsiModifier.DEFAULT)
+                        && !it.hasModifierProperty(PsiModifier.NATIVE)
+            }
                 .forEach {
                     val name = it.name
                     val type = it.parameterList.getParameter(0)?.type?.canonicalText ?: ""
