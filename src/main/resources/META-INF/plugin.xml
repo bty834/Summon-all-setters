@@ -10,7 +10,7 @@
         **Summon all setters** helps you auto-generate all the setters of Java POJOs, press  `option/alt + enter`
     ]]>
     </description>
-
+<!---->
     <extensions defaultExtensionNs="com.intellij">
         <intentionAction>
             <language>JAVA</language>

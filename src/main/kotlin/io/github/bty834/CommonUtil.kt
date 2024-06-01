@@ -34,7 +34,16 @@ class CommonUtil {
                 return true
             }
 
-            if (psiClass.allMethods.any { it.name.startsWith("set") }) {
+            if (psiClass.allMethods
+                    .filter {
+                        it.hasModifierProperty(PsiModifier.PUBLIC)
+                                && it.name.startsWith("set")
+                                && !it.hasModifierProperty(PsiModifier.STATIC)
+                                && !it.hasModifierProperty(PsiModifier.ABSTRACT)
+                                && !it.hasModifierProperty(PsiModifier.DEFAULT)
+                                && !it.hasModifierProperty(PsiModifier.NATIVE)
+                    }
+                    .any { it.name.startsWith("set") }) {
                 return true
             }
 
